@@ -7,7 +7,7 @@ from ultralytics import YOLO
 model = YOLO('/Users/terryyang/Documents/GitHub/ARC_2026_Dynamic_Object_Capture/Object_Detection_Test_1/train3/weights/best.pt')
 
 # 2. Open the built-in MacBook webcam
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 
 if not cap.isOpened():
     print("Error: Could not open webcam.")
