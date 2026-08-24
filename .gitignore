@@ -5,6 +5,7 @@ __pycache__/
 .Python
 
 # Local venv / TensorRT / camera dumps
+.venv/
 3D_Reconstruction /myenv/
 *.engine
 nvcamtest_*.jpg

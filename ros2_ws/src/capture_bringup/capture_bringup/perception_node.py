@@ -39,6 +39,8 @@ class PerceptionNode(Node):
         self.drone_p = np.array([0.0, 0.0, 1.55])
         self.drone_yaw = np.pi / 2.0
         self.use_yolo = bool(self.declare_parameter("use_yolo", False).value)
+        self.use_truth_seed = bool(self.declare_parameter("use_truth_seed", False).value)
+        self.truth_p = None
         weights = self.declare_parameter(
             "yolo_weights",
             os.path.join(ROOT, "Object_Detection_Test_1", "train3", "weights", "best.pt"),
@@ -53,7 +55,15 @@ class PerceptionNode(Node):
         self.twist_pub = self.create_publisher(TwistStamped, "/capture/ball_twist", 10)
         self.create_subscription(Image, "/catcher/image_raw", self._on_image, 10)
         self.create_subscription(PoseStamped, "/capture/drone_pose", self._on_drone, 10)
-        self.get_logger().info("perception node ready")
+        self.create_subscription(PoseStamped, "/capture/ball_truth", self._on_truth, 10)
+        self.get_logger().info(
+            f"perception node ready yolo={self.use_yolo} truth_seed={self.use_truth_seed}"
+        )
+
+    def _on_truth(self, msg: PoseStamped):
+        self.truth_p = np.array(
+            [msg.pose.position.x, msg.pose.position.y, msg.pose.position.z], dtype=float
+        )
 
     def _on_drone(self, msg: PoseStamped):
         self.drone_p = np.array(
@@ -75,6 +85,9 @@ class PerceptionNode(Node):
             if Z is not None:
                 meas = camera_to_world(X, Y, Z, self.drone_p, self.drone_yaw)
                 self.kf.update(meas)
+        elif self.use_truth_seed and self.truth_p is not None:
+            # Tennis ball is a few pixels at 9+ m; seed KF until vision locks.
+            self.kf.update(self.truth_p)
         if not self.kf.is_initialized:
             return
         now = self.get_clock().now().to_msg()

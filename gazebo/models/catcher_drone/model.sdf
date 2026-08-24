@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<sdf version="1.7">
+<sdf version="1.8">
   <model name="catcher_drone">
     <pose>0 0 1.55 0 0 1.5708</pose>
     <link name="base_link">
@@ -15,6 +15,11 @@
         <geometry>
           <box><size>0.35 0.35 0.12</size></box>
         </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>0x01</collide_bitmask>
+          </contact>
+        </surface>
       </collision>
       <visual name="visual">
         <geometry>
@@ -25,11 +30,28 @@
           <diffuse>0.15 0.15 0.18 1</diffuse>
         </material>
       </visual>
+      <!-- Catch net, 0.32 m forward of CoM (matches InterceptPlanner.catch_offset). -->
+      <visual name="net">
+        <pose>0.32 0 0.04 0 1.5708 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.18</radius>
+            <length>0.02</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.05 0.55 0.15 1</ambient>
+          <diffuse>0.1 0.7 0.2 1</diffuse>
+        </material>
+      </visual>
+      <!-- hfov = 2*atan(320/500) so pinhole fx matches capture_sim.Camera -->
       <sensor name="front_camera" type="camera">
+        <pose>0.08 0 0 0 0 0</pose>
         <always_on>true</always_on>
         <update_rate>30</update_rate>
+        <topic>catcher/image</topic>
         <camera name="cam">
-          <horizontal_fov>1.047</horizontal_fov>
+          <horizontal_fov>1.142</horizontal_fov>
           <image>
             <width>640</width>
             <height>480</height>
@@ -40,23 +62,7 @@
             <far>40</far>
           </clip>
         </camera>
-        <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
-          <ros>
-            <namespace>/catcher</namespace>
-            <remapping>image_raw:=image_raw</remapping>
-            <remapping>camera_info:=camera_info</remapping>
-          </ros>
-          <camera_name>front</camera_name>
-          <frame_name>front_camera_optical</frame_name>
-          <hack_baseline>0.0</hack_baseline>
-        </plugin>
       </sensor>
     </link>
-    <plugin name="gazebo_ros_state" filename="libgazebo_ros_state.so">
-      <ros>
-        <namespace>/catcher</namespace>
-      </ros>
-      <update_rate>50</update_rate>
-    </plugin>
   </model>
 </sdf>

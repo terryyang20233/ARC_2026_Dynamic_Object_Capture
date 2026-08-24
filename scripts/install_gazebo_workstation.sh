@@ -1,15 +1,12 @@
 #!/usr/bin/env bash
-# Workstation installer for Gazebo Classic 11 + ROS 2 camera bridge.
-# This Jetson Nano cannot run Gazebo; copy the repo to Ubuntu 22.04 x86_64 and run:
+# This repo targets Gazebo Harmonic (gz-sim 8) + ROS 2 Humble on Ubuntu 22.04 x86_64.
+# Gazebo Classic 11 is not installed on this workstation and gazebo11 has no apt candidate.
 #
-#   sudo apt update
-#   sudo apt install -y gazebo11 libgazebo11-dev ros-humble-gazebo-ros-pkgs \
-#       ros-humble-gazebo-ros ros-humble-ros-gz-bridge
-#   echo "export GAZEBO_MODEL_PATH=\$GAZEBO_MODEL_PATH:$(cd "$(dirname "$0")/.." && pwd)/gazebo/models" >> ~/.bashrc
-#   gazebo worlds/dynamic_capture.world
+# Do not apt-install from this script (machine-wide changes need an explicit request).
+# Python deps go in the repo venv:  python3 -m venv --system-site-packages .venv
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 echo "Repo: $ROOT"
-echo "On this Nano: sudo is required and Gazebo is not feasible (4 GB RAM)."
-echo "Workstation commands are printed above. Refusing to apt-install here."
-exit 1
+echo "Use:  $ROOT/scripts/run_gazebo.sh"
+echo "Requires: Ubuntu 22.04, ROS 2 Humble, Gazebo Harmonic 8, python3-venv."
+exit 0

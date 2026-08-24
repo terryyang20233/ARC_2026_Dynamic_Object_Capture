@@ -24,6 +24,7 @@ setup(
             "perception_node = capture_bringup.perception_node:main",
             "guidance_node = capture_bringup.guidance_node:main",
             "sil_node = capture_bringup.sil_node:main",
+            "gz_sil_node = capture_bringup.gz_sil_node:main",
         ],
     },
 )
