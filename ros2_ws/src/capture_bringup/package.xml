@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>capture_bringup</name>
+  <version>0.1.0</version>
+  <description>Perception and intercept guidance for dynamic tennis-ball capture.</description>
+  <maintainer email="arc@local">ARC 2026</maintainer>
+  <license>MIT</license>
+  <depend>rclpy</depend>
+  <depend>std_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>nav_msgs</depend>
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

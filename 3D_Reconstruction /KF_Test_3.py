@@ -107,17 +107,23 @@ if __name__ == "__main__":
     print(f"Loading TensorRT engine from: {ENGINE_PATH}")
     model = YOLO(ENGINE_PATH, task="detect")
 
-    # USB摄像头通常是 0 或者 1。Nano上如果是0请改成0
-    # cap = cv2.VideoCapture(0) 
-    
-    # 如果是CSI摄像头（树莓派那种排线摄像头），请注释掉上面那句，改用下面的GStreamer管道：
-    gstreamer_pipeline = "nvarguscamerasrc ! video/x-raw(memory:NVMM), width=1280, height=720, format=NV12, framerate=30/1 ! nvvidconv flip-method=0 ! video/x-raw, width=1280, height=720, format=BGRx ! videoconvert ! video/x-raw, format=BGR ! appsink"
-    cap = cv2.VideoCapture(gstreamer_pipeline, cv2.CAP_GSTREAMER)
+    import jetson.utils
 
-    ret, frame = cap.read()
-    if not ret: 
-        print("Failed to open camera!")
+    print("Initializing CSI Camera via jetson.utils...")
+    # 初始化 CSI 摄像头：0号摄像头，分辨率1280x720，帧率30
+    camera = jetson.utils.videoSource("csi://0", argv=['--input-width=1280', '--input-height=720', '--framerate=30'])
+    
+    # 抓取第一帧，用于测试和获取分辨率
+    img = camera.Capture()
+    if img is None: 
+        print("Failed to open camera via jetson.utils!")
         exit()
+        
+    # jetson.utils 返回的是 GPU 内存中的 RGB 图像格式
+    # 我们需要将其转换为 NumPy 数组，并将颜色通道转为 OpenCV 和 YOLO 默认的 BGR 格式
+    frame = jetson.utils.cudaToNumpy(img).astype(np.uint8)
+    frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+        
 
     frame_height, frame_width = frame.shape[:2]
     camera_matrix = np.array([
@@ -145,10 +151,15 @@ if __name__ == "__main__":
 
     print("Starting... Press 'q' in CV window to quit.")
 
-    while cap.isOpened():
-        ret, frame = cap.read()
-        if not ret: break
-        frame_count += 1
+    while True:
+        img = camera.Capture()
+        if img is None: 
+            continue
+            
+        # 同样转换为 NumPy 和 BGR 格式
+        frame = jetson.utils.cudaToNumpy(img).astype(np.uint8)
+        frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+        
 
         current_time = time.time()
         dt = current_time - last_time
@@ -209,7 +220,7 @@ if __name__ == "__main__":
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
-    cap.release()
+    
     cv2.destroyAllWindows()
     if ENABLE_3D_PLOT:
         plt.ioff()

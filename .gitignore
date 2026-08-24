@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+
+# Local venv / TensorRT / camera dumps
+3D_Reconstruction /myenv/
+*.engine
+nvcamtest_*.jpg
+
+# ROS 2 colcon artifacts
+ros2_ws/build/
+ros2_ws/install/
+ros2_ws/log/
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
