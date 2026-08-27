@@ -6,6 +6,8 @@ The stack closes the loop from a single camera to a catch setpoint: **detect →
 
 Authors: Terry Yang, Tommy Yang, and Felicia Zhou.
 
+[Presentation slides (PDF)](ARC_2026_presentation/main.pdf)
+
 ## Intended use
 
 This repository is for **academic research and education**: simulated and lab capture of a tennis ball with a netted research quadrotor.
