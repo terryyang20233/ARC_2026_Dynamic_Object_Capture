@@ -1,6 +1,0 @@
-\beamer@sectionintoc {1}{Introduction}{3}{0}{1}
-\beamer@sectionintoc {2}{Related Works}{5}{0}{2}
-\beamer@sectionintoc {3}{Methodology}{7}{0}{3}
-\beamer@sectionintoc {4}{Results}{11}{0}{4}
-\beamer@sectionintoc {5}{Discussion}{13}{0}{5}
-\beamer@sectionintoc {6}{Acknowledgements}{15}{0}{6}

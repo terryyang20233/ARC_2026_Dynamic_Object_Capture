@@ -1,10 +1,11 @@
+from pathlib import Path
+
 import cv2
 from ultralytics import YOLO
 
 # 1. Load YOUR custom YOLO model
-# Make sure this path points to the .pt file you generated from training!
-# It could be an absolute path: '/Users/name/Desktop/my_project/best.pt'
-model = YOLO('/Users/terryyang/Documents/GitHub/ARC_2026_Dynamic_Object_Capture/Object_Detection_Test_1/train3/weights/best.pt')
+_WEIGHTS = Path(__file__).resolve().parent / "train3" / "weights" / "best.pt"
+model = YOLO(str(_WEIGHTS))
 
 # 2. Open the built-in MacBook webcam
 cap = cv2.VideoCapture(0)

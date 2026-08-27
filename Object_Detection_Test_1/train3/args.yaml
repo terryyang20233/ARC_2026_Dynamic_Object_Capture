@@ -1,7 +1,7 @@
 task: detect
 mode: train
 model: yolo11s.pt
-data: /content/datasets/Tennis-Ball-1/data.yaml
+data: datasets/Tennis-Ball-1/data.yaml
 epochs: 50
 time: null
 patience: 50

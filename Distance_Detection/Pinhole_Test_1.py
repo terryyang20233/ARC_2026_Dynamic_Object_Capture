@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import cv2
 import numpy as np
 from ultralytics import YOLO
@@ -54,8 +56,14 @@ def estimate_3d_position(bbox, camera_matrix, real_diameter=0.067):
 # ==========================================
 if __name__ == "__main__":
     # 1. Load your trained YOLO model
-    model = YOLO(
-        "/Users/terryyang/Documents/GitHub/ARC_2026_Dynamic_Object_Capture/Object_Detection_Test_1/train3/weights/best.pt")
+    weights = (
+        Path(__file__).resolve().parent.parent
+        / "Object_Detection_Test_1"
+        / "train3"
+        / "weights"
+        / "best.pt"
+    )
+    model = YOLO(str(weights))
 
     # 2. Open Video Source (0 or 1 for MacBook built-in webcam)
     cap = cv2.VideoCapture(1)

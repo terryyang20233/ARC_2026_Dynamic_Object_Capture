@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import cv2
 import numpy as np
 from ultralytics import YOLO
@@ -76,8 +78,14 @@ def square_bbox(bbox):
 # ==========================================
 if __name__ == "__main__":
     # 1. Load your trained YOLO model
-    # REPLACE 'best.pt' with the path to your trained model
-    model = YOLO("/Users/terryyang/Documents/GitHub/ARC_2026_Dynamic_Object_Capture/Object_Detection_Test_1/train3/weights/best.pt")
+    weights = (
+        Path(__file__).resolve().parent.parent
+        / "Object_Detection_Test_1"
+        / "train3"
+        / "weights"
+        / "best.pt"
+    )
+    model = YOLO(str(weights))
 
     # 2. Define Camera Intrinsics (MUST BE CALIBRATED FOR YOUR REAL DRONE CAMERA)
     # These are dummy values for a standard 640x480 webcam

@@ -3,6 +3,10 @@ __pycache__/
 *.py[cod]
 *.so
 .Python
+*.egg-info/
+.eggs/
+dist/
+build/
 
 # Local venv / TensorRT / camera dumps
 .venv/
@@ -19,3 +23,24 @@ ros2_ws/log/
 .DS_Store
 .idea/
 .vscode/
+*.swp
+
+# LaTeX build artifacts (source is main.tex; PDF is kept)
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+# Secrets / local env (do not commit)
+.env
+.env.*
+*.pem
+*.key
+id_rsa*
+credentials.json
+secrets.json
