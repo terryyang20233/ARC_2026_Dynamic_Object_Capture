@@ -10,16 +10,6 @@ Authors: Terry Yang, Tommy Yang, and Felicia Zhou.
 
 This repository is for **academic research and education**: simulated and lab capture of a tennis ball with a netted research quadrotor.
 
-It is **not** a targeting, surveillance, or weapons system. Do not use it to intercept people, vehicles, or anything other than the documented tennis-ball scenario. Real flight requires institutional approval, airspace authorization, and a safety-reviewed flight stack. The intercept planner publishes setpoints only; it does not include a motor mixer or a production PX4/ArduPilot integration.
-
-## Privacy and data
-
-- No API keys, passwords, or private credentials are stored in this repository.
-- Jetson camera test dumps are excluded (see `.gitignore`).
-- YOLO training visualizations and `Object_Detection_Test_1/predict/` images come from a public Roboflow tennis-ball dataset (`Tennis-Ball-1` in Colab). They may include people who appear in that third-party dataset. Weights are in `Object_Detection_Test_1/train3/weights/`.
-- Hardware photos in `ARC_2026_presentation/` show a lab/office prototype, not a private address.
-
-If you fork this work, do not commit webcam captures, flight logs with GPS, or personal photos.
 
 ## Repository layout
 
